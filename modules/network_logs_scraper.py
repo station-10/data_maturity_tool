@@ -42,7 +42,7 @@ def network_log_scraper(input_url):
 		network_log_variables['has_adobe_analytics'] = True
 		network_log_variables['custom_request_domain'] = (lambda x: True if "smetrics" in x else False)(str(bss_list[0]))
 		network_log_variables['latest_js_library'] = (lambda x: True if x == "2.21.0" else False)(bss_list[0].split('/')[7].split('-')[1])
-		network_log_variables['days_since_js_update'] = (lambda x: datetime.strptime(js_libraries_dict.get("2.21.0"), '%d-%m-%Y').date() - x)(datetime.strptime(js_libraries_dict.get(bss_list[0].split('/')[7].split('-')[1]), '%d-%m-%Y').date())
+		network_log_variables['days_since_js_update'] = str((lambda x: datetime.strptime(js_libraries_dict.get("2.21.0"), '%d-%m-%Y') - x)(datetime.strptime(js_libraries_dict.get(bss_list[0].split('/')[7].split('-')[1]), '%d-%m-%Y'))).split(',')[0]
 		network_log_variables['has_experience_cloud_id'] = (lambda x: True if 'mid' in str(x) else False)(bss_list)
 		network_log_variables['count_of_evars'] = len(re.findall(r'v[0-9][0-9]?[0-9]?', urllib.parse.unquote(df['path'][df['path'].str.contains('b/ss')].iloc[0])))
 	else:
